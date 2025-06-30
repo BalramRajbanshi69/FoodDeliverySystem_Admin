@@ -1,17 +1,22 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-
-import RtlLayout from "layouts/rtl";
 import AdminLayout from "layouts/admin";
-import AuthLayout from "layouts/auth";
+import AdminLogin from "views/admin/login/AdminLogin";
+import { Provider } from "react-redux";
+import store from "store/store";
+import ProtectedRoute from "ProtectedRoute";
+
 const App = () => {
   return (
+    <Provider store={store}>
     <Routes>
-      <Route path="auth/*" element={<AuthLayout />} />
-      <Route path="admin/*" element={<AdminLayout />} />
-      <Route path="rtl/*" element={<RtlLayout />} />
-      <Route path="/" element={<Navigate to="/admin" replace />} />
+      {/* when in home page, navigate to admin login page */}
+      <Route path="/" element={<AdminLogin />} />             
+      <Route path="admin/*" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>} />
+      {/* <Route path="/" element={<Navigate to="/admin" replace />} /> */}
     </Routes>
+    </Provider>
+ 
   );
 };
 
