@@ -5,11 +5,11 @@ import { fetchProfile } from 'store/authSlice'
 const ProtectedRoute = ({children}) => {
   const dispatch = useDispatch()
   const {data} = useSelector((state)=>state.auth)
-  console.log(data);
+  // console.log(data);
 
   useEffect(()=>{
     dispatch(fetchProfile())
-  },[])
+  },[dispatch])
 
   if(data.role === "admin"){
     return (

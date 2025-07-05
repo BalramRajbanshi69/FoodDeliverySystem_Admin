@@ -1,22 +1,50 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {useNavigate} from "react-router-dom"
+import { orderDelete } from "store/orderSlice";
+import { fetchOrder } from "store/orderSlice";
 
 const Orders = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const { orders } = useSelector((state) => state.orders);
+  // console.log(orders);
+  const [selectedItems,setSelectedItems] = useState("all")    // orderstauts
+  const [searchTerm,setSearchTerm] = useState("")   // search set empty first
+  const [date,setDate] = useState("");
+  // console.log(date);
+  // console.log(selectedItems);
+
+  // filter orders according to selectedItems that user select
+  // const filteredOrders = selectedItems === "all" ? orders: orders.filter((order)=>order.orderStatus === selectedItems) ; // if selected is all show all those status order ,else show selected orders status. orderStatus should be equal to user selected items
+  // OR BEST WAY AND SHORTCUT
+  const filteredOrders = orders?.filter((order)=>selectedItems ==="all" || order.orderStatus === selectedItems)             // it says that if initially set all true and if false select according to orderStatus user selected
+  .filter((order)=>order._id.toLowerCase().includes(searchTerm.toLowerCase())  ||                // also search when your order _id should includes(match,present) , the selectedTerm that user select to search (|| means you can filter more according to your choice)
+  order.paymentDetails.method.toLowerCase().includes(searchTerm.toLowerCase())  ||                 // you can use || again and filter according to it whnat you gonna search accordingly
+  order.user.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||             // you can use || again and filter according to it whnat you gonna search accordingly
+  order.orderStatus.toLowerCase().includes(searchTerm.toLowerCase()))                // you can use || again and filter according to it whnat you gonna search accordingly
+  .filter((order)=>date === "" || new Date(order.createdAt).toLocaleDateString() === new Date(date).toLocaleDateString())        // filter according to date order created at
+
+  useEffect(() => {
+    dispatch(fetchOrder());
+  }, []);
+
+  const handleDeleteOrder = (orderId)=>{
+    dispatch(orderDelete(orderId))
+  }
+
   return (
     <div>
       <div className="bg-white p-8 rounded-md w-full container mx-auto max-w-2xl px-4  lg:max-w-7xl lg:px-8">
-        <div className=" flex items-center justify-between my-14">
-          <div>
-            <h2 className="text-gray-600 font-semibold">Products Order</h2>
-            <span className="text-xs">All ordered item</span>
+          <div className="pb-4">
+            <h2 className="text-gray-900 font-semibold underline underline-offset-4">All Orders</h2>
           </div>
-        </div>
-
+        
 {/* filter by order Status */}
         <div className="mb-4 flex items-center">
             <div>
           <select
-           
+            onChange={(e)=>setSelectedItems(e.target.value)}
             className="border border-gray-300 rounded px-2 py-1"
             
           >
@@ -45,7 +73,9 @@ const Orders = () => {
               </svg>
               <input
                 className="bg-gray-50 outline-none ml-1 block "
+                onChange={(e)=>setSearchTerm(e.target.value)}
                 type="text"
+                value={searchTerm}
                 id=""
                 placeholder="search..."
               />
@@ -55,7 +85,9 @@ const Orders = () => {
             <div className=" bg-gray-50 items-center p-2 rounded-md">
               <input
                 className="bg-gray-50 outline-none ml-1 block "
+                onChange={(e)=>setDate(e.target.value)}
                 type="date"
+                value={date}
                 id=""
                 
               />
@@ -71,6 +103,12 @@ const Orders = () => {
                 <thead>
                   <tr>
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      S.N.
+                    </th>
+                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      UserName
+                    </th>
+                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       OrderId
                     </th>
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -85,54 +123,85 @@ const Orders = () => {
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Ordered At
                     </th>
+                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                 
-                      <tr>
+                  {filteredOrders &&
+                    filteredOrders.length > 0 &&
+                    filteredOrders.map((order,index) => (
+                      <tr key={order._id}>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-[#540b0e] whitespace-no-wrap font-bold hover:cursor-pointer hover:underline">
-                            Id
+                          <p className="text-[#540b0e] whitespace-no-wrap font-bold ">
+                            {index + 1}
+                          </p>
+                        </td>
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-[#540b0e] whitespace-no-wrap font-bold ">
+                            {order?.user?.userName}
+                          </p>
+                        </td>
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-[#540b0e] whitespace-no-wrap font-bold hover:cursor-pointer hover:underline" onClick={()=>navigate(`/admin/orders/${order._id}`)}>
+                            {order._id}
                           </p>
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            Amount
+                            {order.totalAmount}
                           </p>
                         </td>
 
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <span
                             className={`relative inline-block px-3 py-1 font-semibold leading-tight rounded-full
+                                  ${
+                                    order.paymentDetails.status === "paid"
+                                      ? "text-green-900 bg-green-200"
+                                      : "text-red-900 bg-red-200"
+                                  }
                                 `}
                           >
                             <span className="relative">
-                              Payment
+                              {order.paymentDetails.status} (
+                              {order.paymentDetails.method})
                             </span>
                           </span>
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <span
                             className={`relative inline-block px-3 py-1 font-semibold leading-tight rounded-full
-                                 
+                                  ${
+                                    order.orderStatus === "pending"
+                                      ? "text-red-900 bg-red-200"
+                                      : "text-green-900 bg-green-200"
+                                  }
                                 `}
                           >
                             <span className="relative">
-                             Order Status
+                              {order.orderStatus}
                             </span>
                           </span>
                         </td>
                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {/* this will create a date  */}
-                            {new Date().toLocaleDateString()}                
+                            {new Date(order.createdAt).toLocaleDateString()}                
                           </p>
                         </td>
+
+                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <button  onClick={()=>handleDeleteOrder(order._id)} className="text-white bg-red-800 px-4 py-2 rounded text-xm whitespace-no-wrap">
+                            Delete                
+                          </button>
+                        </td>
                       </tr>
-                    
+                    ))}
                 </tbody>
               </table>
-              <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+              {/* <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                 <span className="text-xs xs:text-sm text-gray-900">
                   Showing 1 to 4 of 50 Entries
                 </span>
@@ -145,7 +214,7 @@ const Orders = () => {
                     Next
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

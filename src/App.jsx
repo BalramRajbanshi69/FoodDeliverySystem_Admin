@@ -6,6 +6,10 @@ import { Provider } from "react-redux";
 import store from "store/store";
 import ProtectedRoute from "ProtectedRoute";
 
+// socket connection
+import {io} from "socket.io-client"
+export const socket = io("http://localhost:3500")           // with whom you are trying to connect (we are in client side , so connecting with backend path)
+
 const App = () => {
   return (
     <Provider store={store}>
