@@ -5,10 +5,10 @@ import AdminLogin from "views/admin/login/AdminLogin";
 import { Provider } from "react-redux";
 import store from "store/store";
 import ProtectedRoute from "ProtectedRoute";
+import Toast from "toast/Toast";
 
 // socket connection
 import {io} from "socket.io-client"
-import Toast from "toast/Toast";
 export const socket = io("https://fooddeliverysystem-backend-1.onrender.com",{
   auth:{
     token:localStorage.getItem("token")

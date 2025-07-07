@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom"
 import { orderDelete } from "store/orderSlice";
 import { fetchOrder } from "store/orderSlice";
-import toast from "react-hot-toast"
+
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -30,13 +31,14 @@ const Orders = () => {
     dispatch(fetchOrder());
   }, []);
 
-const handleDeleteOrder = async (orderId) => { 
+const handleDeleteOrder =(orderId) => { 
+  
   try {
-    await dispatch(orderDelete(orderId)).unwrap();
-    toast.success("Order deleted successfully!");
+    dispatch(orderDelete(orderId));
+  toast.success("Order deleted successfully!");
   } catch (error) {
-    console.error("Failed to delete order:", error);
-    toast.error("Failed to delete order. Please try again.");
+    console.error(error);
+    toast.error("failed deleting orders")
   }
 };
 
