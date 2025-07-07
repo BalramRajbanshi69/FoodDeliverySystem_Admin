@@ -1,3 +1,4 @@
+import { socket } from "App";
 import { APIAuthenticated } from "http";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +9,11 @@ import { updateProductStatus } from "store/productSlice";
 const SingleProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.products);
+  const {products}  = useSelector((state) => state.products);
+  const {data:user} = useSelector((state)=>state.auth);
+ 
+  
+  
   const [orders,setOrders] = useState([])       // for getting orders of product
 
 
@@ -25,12 +30,13 @@ const SingleProduct = () => {
   })
 
   const [filteredProduct] = products ?  products.filter((product) => product._id === id) : newProduct.filter((product) => product._id === id) // here we need only single selected product deteail so, product._id should be equal to selected product id from params . directly array desctructing beacuse it coming array
+  
+  
   // intermediate problem solved end
 
   const [productStatus, setProductStatus] = useState(
     filteredProduct?.productStatus
   );
-  console.log(productStatus);
 
   const handleProductStatus = (e) => {
     setProductStatus(e.target.value);
@@ -51,13 +57,19 @@ const SingleProduct = () => {
   // fetching to get orders of product
   const fetchOrdersProduct = async()=>{
     const response = await APIAuthenticated.get(`/products/productOrders/${id}`)
+    
+    
    if(response.status ===200){
      setOrders(response.data.data)
    }
   }
   useEffect(()=>{
-    fetchOrdersProduct()   
+    fetchOrdersProduct()  
+     
   },[])
+
+  
+  
 
   return (
     <div className="container mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">

@@ -13,6 +13,7 @@ const SingleOrder = () => {
   const dispatch = useDispatch()
   const {orders} = useSelector((state)=>state.orders)
 
+
   
   // intermediate problem solved start
   const [newOrder,setNewOrder] = useState([])
@@ -27,6 +28,8 @@ const SingleOrder = () => {
     fetchOrders()
   })
   const [filteredOrder] = orders ? orders.filter((order)=>order._id === id)  : newOrder.filter((order)=>order._id === id)// here we need only single selected order deteail so, order._id should be equal to selected order id from params . directly array desctructing beacuse it coming array
+  // console.log(filteredOrder);
+  
   // intermediate problem solved end
 
   
@@ -37,7 +40,13 @@ const SingleOrder = () => {
 
 
   const handleOrderChange = (e)=>{
-    socket.emit("hello",{name:"My name is Balram Rajbanshi"})
+    socket.emit("updateOrderStatus",{
+      status:e.target.value,
+      orderId:id,
+      userId:filteredOrder.user._id
+    })
+
+    
     setOrderStatus(e.target.value)
     dispatch(updateOrderStatus(id,e.target.value))
     
