@@ -8,7 +8,8 @@ import ProtectedRoute from "ProtectedRoute";
 
 // socket connection
 import {io} from "socket.io-client"
-export const socket = io("http://localhost:3500",{
+import Toast from "toast/Toast";
+export const socket = io("https://fooddeliverysystem-backend-1.onrender.com",{
   auth:{
     token:localStorage.getItem("token")
   }
@@ -17,6 +18,7 @@ export const socket = io("http://localhost:3500",{
 const App = () => {
   return (
     <Provider store={store}>
+      <Toast/>
     <Routes>
       {/* when in home page, navigate to admin login page */}
       <Route path="/" element={<AdminLogin />} />             

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom"
 import { orderDelete } from "store/orderSlice";
 import { fetchOrder } from "store/orderSlice";
+import toast from "react-hot-toast"
 
 const Orders = () => {
   const dispatch = useDispatch();
@@ -29,9 +30,15 @@ const Orders = () => {
     dispatch(fetchOrder());
   }, []);
 
-  const handleDeleteOrder = (orderId)=>{
-    dispatch(orderDelete(orderId))
+const handleDeleteOrder = async (orderId) => { 
+  try {
+    await dispatch(orderDelete(orderId)).unwrap();
+    toast.success("Order deleted successfully!");
+  } catch (error) {
+    console.error("Failed to delete order:", error);
+    toast.error("Failed to delete order. Please try again.");
   }
+};
 
   return (
     <div>
