@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom"
 import { deleteUser } from "store/userSlice";
@@ -31,7 +32,14 @@ const Users = () => {
   },[]);
 
   const handleDeleteId = (userId)=>{
+    try {
     dispatch(deleteUser(userId))
+    toast.success("User deleted successfully")
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete user") 
+      
+    }
   }
   
 

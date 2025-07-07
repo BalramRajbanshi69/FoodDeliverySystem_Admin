@@ -1,6 +1,7 @@
 import { STATUSES } from "globals/misc/statuses"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { addProduct } from "store/productSlice"
@@ -11,10 +12,18 @@ const AddProduct = () => {
     const {status} = useSelector((state)=>state.products)
     const {register,handleSubmit,formState} = useForm()
     const handleProduct = (data)=>{
-        data = {...data, productImage:data.productImage[0]}         // ...data takes all data except image, so for image use this
+        try {
+          data = {...data, productImage:data.productImage[0]}         // ...data takes all data except image, so for image use this
         dispatch(addProduct(data))
         if(status === STATUSES.SUCCESS){
+         toast.success("Product Added Successfully") 
         navigate("/admin/products")
+        }
+        } catch (error) {
+          console.error(error);
+          toast.error("Failed to add products.Please try again later!")
+          
+          
         }
     }
 

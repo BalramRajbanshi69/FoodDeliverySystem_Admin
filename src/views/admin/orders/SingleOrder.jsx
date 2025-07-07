@@ -1,6 +1,7 @@
 import { socket } from 'App'
 import { APIAuthenticated } from 'http'
 import React, { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { updatePaymentStatus } from 'store/orderSlice'
@@ -46,26 +47,32 @@ const SingleOrder = () => {
       userId:filteredOrder.user._id
     })
 
-    
     setOrderStatus(e.target.value)
     dispatch(updateOrderStatus(id,e.target.value))
+    toast.success(` Order Status changed to : ${e.target.value}`)
     
   }
 
    const handlePaymentChange = (e)=>{
     setPaymentStatus(e.target.value)
     dispatch(updatePaymentStatus(id,e.target.value))
+    toast.success(` Payment Status changed to : ${e.target.value}`)
+
     
   }
   // cancel order
   const deleteOrder = async()=>{
     try {
       const response = await APIAuthenticated.delete(`/admin/orders/${id}`)
+      
       if(response.status ===200){
+        toast.success("Order deleted successfully")
         navigate("/admin/orders")
       } 
     } catch (error) {
-      console.log(error);  
+      console.log(error);
+      toast.error(" failed to delete order!")
+  
     }
   }
   

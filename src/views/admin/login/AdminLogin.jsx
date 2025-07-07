@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { loginUser } from 'store/authSlice'
@@ -8,7 +9,15 @@ const AdminLogin = () => {
   const {register,handleSubmit,formState} = useForm()
   const handleLogin = (data)=>{
     // console.log(data);
-    dispatch(loginUser(data))
+    
+    try {
+      dispatch(loginUser(data))
+      toast.success("Admin loggedIn successfully")
+      
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to loggedin . Please try again!")  
+    }
   }
   return (
     <div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom"
 import { deleteProduct } from "store/productSlice";
@@ -32,7 +33,13 @@ const Products = () => {
   },[]);
 
   const handleDeleteProduct = (productId)=>{
+    try {
     dispatch(deleteProduct(productId))
+    toast.success("Product deleted successfully")
+    } catch (error) {
+      console.error(error);
+      toast.success("Product deleted successfully")
+    }
   }
 
   

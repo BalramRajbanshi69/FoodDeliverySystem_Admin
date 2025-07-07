@@ -1,6 +1,7 @@
 import { socket } from "App";
 import { APIAuthenticated } from "http";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { updateStockAndPrice } from "store/productSlice";
@@ -41,6 +42,7 @@ const SingleProduct = () => {
   const handleProductStatus = (e) => {
     setProductStatus(e.target.value);
     dispatch(updateProductStatus(id, e.target.value));
+    toast.success(`Product Status changed to ${e.target.value}`)
   };
 
   const handleChange = (value, name) => {
@@ -51,6 +53,9 @@ const SingleProduct = () => {
       data.productStockQuantity = value;
     }
     dispatch(updateStockAndPrice(id, data));
+
+   
+
   };
 
 
