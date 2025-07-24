@@ -13,7 +13,6 @@ const AdminLogin = () => {
     try {
       dispatch(loginUser(data))
       toast.success("Admin loggedIn successfully")
-      
     } catch (error) {
       console.error(error);
       toast.error("Failed to loggedin . Please try again!")  
@@ -182,14 +181,14 @@ const AdminLogin = () => {
             </form>
           </div>
         </div>
-        <div className="flex justify-center items-center mt-6">
+        {/* <div className="flex justify-center items-center mt-6">
           <span className="ml-2">
             You don't have an account?
             <Link to="/register" className="text-xs ml-2 text-blue-500 font-semibold">
               Register now
             </Link>
           </span>
-        </div>
+        </div> */}
       </div>
     </div>
     </div>
