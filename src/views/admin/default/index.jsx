@@ -32,7 +32,7 @@ const Dashboard = () => {
   // we have datas , from there taking userId 
   const totalOrderedUsers = datas && datas.allOrders?.map((order)=>{
     return {
-      userId: order.user._id
+      userId: order.user?._id
     }
   })
   const uniqueTotalOrderedUsers = [...new Set( totalOrderedUsers?.map((user)=>user.userId))]
