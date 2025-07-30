@@ -10,7 +10,8 @@ import {
   IoMdNotificationsOutline,
   IoMdInformationCircleOutline,
 } from "react-icons/io";
-import avatar from "assets/img/avatars/avatar4.png";
+// import avatar from "assets/img/avatars/avatar4.png";
+import profilePic from "../../assets/profilepic.png"
 import { useSelector } from "react-redux";
 
 const Navbar = (props) => {
@@ -76,7 +77,8 @@ const Navbar = (props) => {
           button={
             <img
               className="h-10 w-10 rounded-full"
-              src={avatar}
+              // src={avatar}
+              src={profilePic}
               alt="Elon Musk"
             />
           }
