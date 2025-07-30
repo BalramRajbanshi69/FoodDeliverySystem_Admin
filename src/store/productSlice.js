@@ -103,6 +103,10 @@ export function deleteProduct(productId){
             const response = await APIAuthenticated.delete(`/products/${productId}`) 
             // console.log(response.data.data);
            dispatch(deleteProductById({productId}))
+           // After deleting the product from the backend, re-fetch all orders.
+            // This will ensure your orders state is up-to-date with any changes
+            // made by the backend (like removing the deleted product from orders).
+            dispatch(fetchOrder()); // <-- Call the fetchOrder thunk
             dispatch(setStatus(STATUSES.SUCCESS));
            
         } catch (error) {
