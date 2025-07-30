@@ -79,9 +79,7 @@ export function fetchOrder(){
 export function orderDelete(orderId){
     return async function orderDeleteThunk(dispatch){
         dispatch(setStatus(STATUSES.LOADING));
-        try {
-            console.log("hello");
-            
+        try {            
              const response = await APIAuthenticated.delete(`/admin/orders/${orderId}`) 
       console.log('response',response);
            dispatch(deleteOrderById({orderId}))              // be aware of same name 
