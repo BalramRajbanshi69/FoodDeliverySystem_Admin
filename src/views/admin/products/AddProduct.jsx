@@ -10,13 +10,14 @@ const AddProduct = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const {status} = useSelector((state)=>state.products)
-    const {register,handleSubmit,formState} = useForm()
+    const {register,handleSubmit,formState,reset} = useForm()
     const handleProduct = (data)=>{
         try {
           data = {...data, productImage:data.productImage[0]}         // ...data takes all data except image, so for image use this
         dispatch(addProduct(data))
         if(status === STATUSES.SUCCESS){
          toast.success("Product Added Successfully") 
+         reset();
         navigate("/admin/products")
         }
         } catch (error) {
