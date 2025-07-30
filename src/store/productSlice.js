@@ -82,7 +82,7 @@ export function addProduct(data){
                     }
                 }
             ) 
-            // console.log(response.data.data);
+            console.log(response.data);
            dispatch(addProducts(response.data.data))
             dispatch(setStatus(STATUSES.SUCCESS));
            
