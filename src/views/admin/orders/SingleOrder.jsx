@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { updatePaymentStatus } from 'store/orderSlice'
 import { updateOrderStatus } from 'store/orderSlice'
+import s1 from '../../../assets/footer-bg-image1.jpg';
 
 
 const SingleOrder = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const {id} = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -95,7 +97,10 @@ const SingleOrder = () => {
             return(
               <div key={item._id} className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
           <div className="pb-4 md:pb-8 l md:w-[180px]">
-            <img className="w-full hidden md:block" src={item.product.productImage} alt="dress" />
+            <img className="w-full hidden md:block"
+            //  src={item.product.productImage}
+              src={item?.product.productImage &&item?.product.productImage.length > 0 ? `${apiUrl}${item?.product.productImage[0]}` : s1}
+              alt="dress" />
           </div>
           <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start  pb-8 space-y-4 md:space-y-0">
             <div className="md:w-40 flex flex-col justify-start items-start space-y-8">

@@ -6,8 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { updateStockAndPrice } from "store/productSlice";
 import { updateProductStatus } from "store/productSlice";
+import s1 from '../../.../../../../src/assets/footer-bg-image1.jpg';
 
 const SingleProduct = () => {
+const apiUrl = process.env.REACT_APP_API_URL;    
   const { id } = useParams();
   const dispatch = useDispatch();
   const {products}  = useSelector((state) => state.products);
@@ -103,7 +105,8 @@ const SingleProduct = () => {
                 <div className="l pb-4 md:w-[150px] md:pb-8">
                   <img
                     className="hidden w-full md:block"
-                    src={filteredProduct?.productImage}
+                    // src={filteredProduct?.productImage}
+                       src={filteredProduct?.productImage && filteredProduct.productImage.length > 0 ? `${apiUrl}${filteredProduct.productImage[0]}` : s1}
                     alt="dress"
                   />
                 </div>

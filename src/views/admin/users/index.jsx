@@ -10,7 +10,7 @@ const Users = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const {users} = useSelector((state)=>state.users)
-  // console.log(users);  
+  console.log(users);  
   const [searchTerm,setSearchTerm] = useState("")   // search set empty first
   const [date,setDate] = useState("");
   // console.log(date);
