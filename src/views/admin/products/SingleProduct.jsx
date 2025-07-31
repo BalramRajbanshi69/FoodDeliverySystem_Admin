@@ -9,7 +9,7 @@ import { updateProductStatus } from "store/productSlice";
 import s1 from '../../.../../../../src/assets/footer-bg-image1.jpg';
 
 const SingleProduct = () => {
-const apiUrl = process.env.REACT_APP_API_URL;    
+// const apiUrl = process.env.REACT_APP_API_URL;  // since using cloudinary full absolute url required   
   const { id } = useParams();
   const dispatch = useDispatch();
   const {products}  = useSelector((state) => state.products);
@@ -106,11 +106,11 @@ const apiUrl = process.env.REACT_APP_API_URL;
                   <img
                     className="hidden w-full md:block"
                     // src={filteredProduct?.productImage}
-                       src={filteredProduct?.productImage && filteredProduct.productImage.length > 0 ? `${apiUrl}${filteredProduct.productImage[0]}` : s1}
-                    alt="dress"
+                       src={filteredProduct?.productImage && filteredProduct.productImage.length > 0 ? filteredProduct.productImage[0] : s1}
+                    alt={filteredProduct?.productName}
                   />
                 </div>
-                <div className="bproduct-b bproduct-gray-200 flex flex-col items-start justify-between space-y-4  pb-8 md:flex-row md:space-y-0">
+                <div className="border-b border-gray-200 flex flex-col items-start justify-between space-y-4  pb-8 md:flex-row md:space-y-0">
                   <div className="flex flex-col items-start justify-start space-y-8 md:w-40">
                     <h3 className="text-xl font-semibold leading-6 text-gray-800 dark:text-white xl:text-2xl">
                       {filteredProduct?.productName}

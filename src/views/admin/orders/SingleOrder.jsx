@@ -10,7 +10,7 @@ import s1 from '../../../assets/footer-bg-image1.jpg';
 
 
 const SingleOrder = () => {
-  const apiUrl = process.env.REACT_APP_API_URL;
+  // const apiUrl = process.env.REACT_APP_API_URL; // since using cloudinary full absolute url
   const {id} = useParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -99,8 +99,8 @@ const SingleOrder = () => {
           <div className="pb-4 md:pb-8 l md:w-[180px]">
             <img className="w-full hidden md:block"
             //  src={item.product.productImage}
-              src={item?.product.productImage &&item?.product.productImage.length > 0 ? `${apiUrl}${item?.product.productImage[0]}` : s1}
-              alt="dress" />
+              src={item?.product.productImage &&item?.product.productImage.length > 0 ? item?.product.productImage[0] : s1}
+              alt={item?.product.productName} />
           </div>
           <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start  pb-8 space-y-4 md:space-y-0">
             <div className="md:w-40 flex flex-col justify-start items-start space-y-8">
