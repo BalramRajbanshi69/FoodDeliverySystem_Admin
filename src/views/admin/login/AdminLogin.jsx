@@ -88,7 +88,7 @@ const AdminLogin = () => {
                       py-2
                       focus:outline-none focus:border-blue-400
                     "
-                    placeholder="Enter your email"
+                    placeholder="Email-> admin@gmail.com"
                     {...register("email",{required:"Email is required"})}
                   />
                 </div>
@@ -135,7 +135,7 @@ const AdminLogin = () => {
                       py-2
                       focus:outline-none focus:border-blue-400
                     "
-                    placeholder="Enter your password"
+                    placeholder="Password-> admin"
                     {...register("password",{required:"Password is required"})}
                   />
                 </div>
