@@ -22,7 +22,7 @@ const App = () => {
     <Routes>
       {/* when in home page, navigate to admin login page */}
       <Route path="/" element={<AdminLogin />} />             
-      <Route path="admin/*" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>} />
+      <Route path="admin/*" element={<ProtectedRoute><AdminLayout/></ProtectedRoute>} />
       {/* <Route path="/" element={<Navigate to="/admin" replace />} /> */}
     </Routes>
     </Provider>
