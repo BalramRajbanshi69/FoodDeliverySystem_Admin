@@ -3,9 +3,11 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { loginUser } from 'store/authSlice'
 const AdminLogin = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const {status,token} = useSelector((state)=>state.auth)
   const {register,handleSubmit} = useForm()
   const handleLogin = async(data)=>{
@@ -13,13 +15,10 @@ const AdminLogin = () => {
     
     try {
      await dispatch(loginUser(data))
-       if(status === STATUSES.SUCCESS && token){
               localStorage.setItem("token",token)                    // after suucessfull login setItem token in localStorage; response.data.token from response.data and token from backend
-              window.location.href = "/admin"                                   // navigate to page /admin after successful login
+              navigate("/admin")                                   // navigate to page /admin after successful login
                 toast.success("Admin loggedIn successfully")
-            } else if(status === STATUSES.ERROR){
-              toast.error("Invalid credentials")
-            }
+           
     } catch (error) {
       console.error(error);
       toast.error(error?.response?.data?.message || "Failed to log in. Please try again!");
