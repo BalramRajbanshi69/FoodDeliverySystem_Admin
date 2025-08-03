@@ -1,21 +1,28 @@
+import { STATUSES } from 'globals/misc/statuses'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from 'store/authSlice'
 const AdminLogin = () => {
   const dispatch = useDispatch()
-  const {register,handleSubmit,formState} = useForm()
-  const handleLogin = (data)=>{
+  const {status,token} = useSelector((state)=>state.auth)
+  const {register,handleSubmit} = useForm()
+  const handleLogin = async(data)=>{
     // console.log(data);
     
     try {
-      dispatch(loginUser(data))
-      toast.success("Admin loggedIn successfully")
+     await dispatch(loginUser(data))
+       if(status === STATUSES.SUCCESS && token){
+              localStorage.setItem("token",token)                    // after suucessfull login setItem token in localStorage; response.data.token from response.data and token from backend
+              window.location.href = "/admin"                                   // navigate to page /admin after successful login
+                toast.success("Admin loggedIn successfully")
+            } else if(status === STATUSES.ERROR){
+              toast.error("Invalid credentials")
+            }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to loggedin . Please try again!")  
+      toast.error(error?.response?.data?.message || "Failed to log in. Please try again!");
     }
   }
   return (

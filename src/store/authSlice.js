@@ -48,15 +48,12 @@ export function loginUser(data){
              dispatch(setUser(response.data.data));               // set user data for login 
             dispatch(setToken(response.data.token));               // here see the backend login route code token is saved in token:token so response.data.token   && if data:token then response.data.token
             dispatch(setStatus(STATUSES.SUCCESS));  
-            // localStorage.setItem("token",response.data.token)                    // after suucessfull login setItem token in localStorage; response.data.token from response.data and token from backend
-            // OR 
-            if(response.status === 200 && response.data.token){
-                    localStorage.setItem("token",response.data.token)                    // after suucessfull login setItem token in localStorage; response.data.token from response.data and token from backend
-                window.location.href = "/admin"                                   // navigate to page /admin after successful login
-            } 
+
+            return response.data
         } catch (error) {
             console.log(error);
             dispatch(setStatus(STATUSES.ERROR))
+            throw error;
         }
     }
 }
