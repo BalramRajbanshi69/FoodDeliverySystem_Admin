@@ -52,6 +52,7 @@ const APIAuthenticated = axios.create({
   headers: {
     "Content-Type": "application/json",
     "Accept": "application/json"
+    
   }
 });
 
